@@ -1,4 +1,13 @@
 <x-app-layout>
+<style>
+  .bg-russian-flag {
+    background: linear-gradient(to bottom, white 33%, blue 33%, blue 66%, red 66%);
+  }
+
+  .hover\:bg-russian-flag-hover:hover {
+    background: linear-gradient(to bottom, white 33%, blue 33%, blue 66%, darkred 66%);
+  }
+</style>
     <div class="w-full rounded overflow-hidden shadow-lg p-4 bg-white mb-4">
             <div class="flex justify-between">
                 <div>       
@@ -28,7 +37,15 @@
                     <tbody>
                         @foreach($playlist->songs as $song)
                             <tr>
-                                <td class="border px-4 py-2">{{ $song->title }} | {{ $song->artist }}</td>
+                                <td class="border px-4 py-2">{{ $song->title }} | {{ $song->artist }} 
+                                    <form action="{{ route('playlist.removesong', $playlist->id) }}" method="post">
+                                        @csrf
+                                        <input type="hidden" name="song" value="{{$song->id}}">
+                                        <button type="submit" class="float-right bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                                            Remove
+                                        </button>
+                                    </form>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -42,7 +59,7 @@
                             <option value="{{ $song->id }}">{{ $song->title }}</option>
                         @endforeach
                     </select>
-                    <button type="submit" class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+                    <button type="submit" class="w-full bg-russian-flag hover:bg-russian-flag-hover text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
                         Add
                     </button>
                 </form>
